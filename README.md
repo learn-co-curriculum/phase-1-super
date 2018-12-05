@@ -70,14 +70,15 @@ With `super`, we can inherit functionality from the parent class in two differen
 In `Dog`s `constructor`, `super` is used as a `method`. Whereas, `Dog`'s `bark()`
 method used `super` as an `object`. 
 
-When the `super` keyword is used as a method, it calls the parent class `Pet`with
+When the `super` keyword is used as a method, it calls the parent class `Pet` with
 the parameters passed to `Dog`. Calling `super()` in the constructor calls the
 parent's constructor (where `this.name` is assigned). The parent constructor
-fires then the child constructor continues.
+fires, then the child constructor continues.
 
-When `super` is used as an `object` that refers to a `Pet` instance, it can call methods
-of the parent class `Pet` explicitly. In our example, we are adding onto the functionality
-by creating a `bark()` method that integrates its parent's `speak()` method into it.
+When `super` is used as an `object`, it refers to a `Pet` instance that can call
+methods of the parent class `Pet` explicitly. In our example, we are adding onto the
+functionality by creating a `bark()` method that integrates its parent's `speak()`
+method into it.
 
 **NOTE:** Instead of overwriting `speak()` from the parent class of `Pet`, we used
 `speak()` in order to build new functionality into the child class. We want `dog.speak()`
