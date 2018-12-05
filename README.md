@@ -52,18 +52,19 @@ class Pet {
 
 // Inherits from Pet
 class Dog extends Pet {
-  constructor(name) {
+  constructor(name, breed) {
     super(name)
+    this.breed = breed;
   }
   bark() {
-    return `${super.speak()} ${this.name} says woof!`;
+    return `${super.speak()} ${this.name} the ${this.breed} says woof!`;
   }
 }
 
-let dog = new Dog("Spot");
+let dog = new Dog("Spot", "foxhound");
 
 dog.speak(); // Spot makes a loud sound!
-dog.bark(); // Spot makes a loud sound! Spot says woof!
+dog.bark(); // Spot makes a loud sound! Spot the foxhound says woof!
 ```
 With `super`, we can inherit functionality from the parent class in two different ways:
 In `Dog`s `constructor`, `super` is used as a `method`. Whereas, `Dog`'s `bark()`
