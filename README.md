@@ -6,92 +6,125 @@
 
 ## Introduction
 
-In addition to extending classes, we can build methods that perform
-actions on instance data that is specific to the child class. 
-
-```js
-class Pet {
-  constructor(name) {
-    this.name = name;
-  }
-
-  speak() {
-    return `${this.name} makes a loud sound!`
-  }
-}
-
-// Inherits from Pet
-class Dog extends Pet { ... }
-
-let dog = new Dog("Shadow");
-
-dog.speak(); // Shadow makes a loud sound!
-```
-
-We already have a method for `speak` on our `Pet` class, so how can this
-be leveraged to create independent methods that the parent class does
-not share? This is where the `super` method comes in. In this lesson,
-we'll illustrate how `super` works.
+In addition to simply extending classes, JavaScript provides an additional
+keyword, `super`, for directly working with a parent class consctructor and inherited
+methods.
 
 ## Use the `super` Method
 
 In the code below, we have 2 JavaScript classes: `Pet` and `Dog`. The `Dog`
 class is a _subclass_ or _child_ class of `Pet` and it uses the `extends`
-keyword to inherit methods from the parent class.
+keyword to inherit methods from the parent class:
 
 ```js
 class Pet {
-  constructor(name) {
-    this.name = name;
-  }
+	constructor(name) {
+		this.name = name;
+		this._owner = null;
+	}
 
-  speak() {
-    return `${this.name} makes a loud sound!`
-  }
+	get owner() {
+		return this._owner;
+	}
+
+	set owner(owner) {
+		this._owner = owner;
+	}
+
+	get speak() {
+		return `${this.name} makes a noise`;
+	}
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-  constructor(name, breed) {
-    super(name)
-    this.breed = breed;
-  }
-  bark() {
-    return `${super.speak()} ${this.name} the ${this.breed} says woof!`;
-  }
+	constructor(name, breed) {
+		super(name);
+		this.breed = breed;
+	}
 }
 
-let dog = new Dog("Spot", "foxhound");
-
-dog.speak(); // Spot makes a loud sound!
-dog.bark(); // Spot makes a loud sound! Spot the foxhound says woof!
+let creature = new Pet('The Thing');
+let dog = new Dog('Spot', 'foxhound');
 ```
-With `super`, we can inherit functionality from the parent class in two different ways:
-In `Dog`s `constructor`, `super` is used as a `method`. Whereas, `Dog`'s `bark()`
-method used `super` as an `object`. 
 
-When the `super` keyword is used as a method, it calls the parent class `Pet` with
-the parameters passed to `Dog`. Calling `super()` in the constructor calls the
-parent's constructor (where `this.name` is assigned). The parent constructor
-fires, then the child constructor continues.
+Above, there is something new. The `Pet` class takes in a name parameter,
+assigns it to the `name` property, and also creates an `_owner` property,
+setting it to `null`. The `Dog` class takes in name and _breed_, calls `super`,
+passing in the name, then sets `this.breed` to the provided breed.
 
-When `super` is used as an `object`, it refers to a `Pet` instance that can call
-methods of the parent class `Pet` explicitly. In our example, we are adding onto the
-functionality by creating a `bark()` method that integrates its parent's `speak()`
-method into it.
+What is happening? In our `Dog` constructor, we are able to use `super` to call
+the `Pet` constructor. Doing this will set up the `name` and `owner`
+properties. Then, once complete, the `Dog` constructor continues to execute,
+setting `breed`.
 
-**NOTE:** Instead of overwriting `speak()` from the parent class of `Pet`, we used
-`speak()` in order to build new functionality into the child class. We want `dog.speak()`
-or any other instance of the `Dog` class to still have the same return value as its parent.
+In a child class constructor, `super` is used as a `method` and calls the parent
+class constructor before continuing with the child class constructor. This lets
+us extend a parent's constructor if we need to define custom behavior in a child
+constructor without having to override or ignore the parent.
+
+Outside of the constructor, the `super` keyword is also used, but this time, as
+an `object`. When used, it refers to parent class properties or methods. We
+could, for instance, use `super._owner` or `super.speak` in our `Dog` class.
+**However**, since instance methods and properties are _already_ inherited, this
+_will be the same as using_ `this._owner` _and_ `this.speak`.
+
+Using `super` as an object really only becomes useful in situations where a
+parent class contains a static method that we want to expand on in a child
+class:
+
+```js
+class Pet {
+	constructor(name) {
+		this.name = name;
+		this._owner = null;
+	}
+
+	get owner() {
+		return this._owner;
+	}
+
+	set owner(owner) {
+		this._owner = owner;
+	}
+
+	static definition() {
+		return "A pet or companion animal is an animal kept primarily for a person's company.";
+	}
+}
+
+// Inherits from Pet
+class Dog extends Pet {
+	constructor(name, breed) {
+		super(name);
+		this.breed = breed;
+	}
+
+	static dogDefinition() {
+		return super.definition + ' Dogs are one of the most common types of pets.';
+	}
+}
+
+let creature = new Pet('The Thing');
+let dog = new Dog('Spot', 'foxhound');
+```
+
+In the `Pet` class above, we've included a static method, `definition`, for
+what a pet it. In `Dog`, we are able to use `super.definition` to access that
+static method, then _add_ to it, in this case, extending the definition to
+specifically reference dogs.
 
 ## Conclusion
 
-In this lesson, we dive deeper into class extensions and inheritance in JavaScript. In
-combination with `extends`, `super` allows us to create custom `constructor` functions
-and pass down properties and method values.
+In this lesson, we dove deeper into class extensions and inheritance in
+JavaScript. In combination with `extends`, `super` allows a child class to
+access a parent's constructor from within a child's constructor. It also allows
+a child class to access methods and properties from a parent class, but as most
+of these are already inherited, this is only useful when modifying static
+methods from the parent class.
 
 ## Resources
 
-* [Inheritance in JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance)
-* [“Super” and “Extends” In JavaScript ES6 - Understanding The Tough Parts](https://medium.com/beginners-guide-to-mobile-web-development/super-and-extends-in-javascript-es6-understanding-the-tough-parts-6120372d3420)
-* [Class inheritance, super](https://javascript.info/class-inheritance)
+- [Inheritance in JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance)
+- [“Super” and “Extends” In JavaScript ES6 - Understanding The Tough Parts](https://medium.com/beginners-guide-to-mobile-web-development/super-and-extends-in-javascript-es6-understanding-the-tough-parts-6120372d3420)
+- [Class inheritance, super](https://javascript.info/class-inheritance)
