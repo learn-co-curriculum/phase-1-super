@@ -18,30 +18,30 @@ keyword to inherit methods from the parent class:
 
 ```js
 class Pet {
-	constructor(name) {
-		this.name = name;
-		this._owner = null;
-	}
+  constructor(name) {
+	  this.name = name;
+	  this._owner = null;
+  }
 
-	get owner() {
-		return this._owner;
-	}
+  get owner() {
+	  return this._owner;
+  }
 
-	set owner(owner) {
-		this._owner = owner;
-	}
+  set owner(owner) {
+	  this._owner = owner;
+  }
 
-	get speak() {
-		return `${this.name} makes a noise`;
-	}
+  get speak() {
+    return `${this.name} makes a noise`;
+  }
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-	constructor(name, breed) {
-		super(name);
-		this.breed = breed;
-	}
+  constructor(name, breed) {
+	  super(name);
+	  this.breed = breed;
+  }
 }
 
 let creature = new Pet('The Thing');
@@ -75,34 +75,34 @@ class:
 
 ```js
 class Pet {
-	constructor(name) {
-		this.name = name;
-		this._owner = null;
-	}
+  constructor(name) {
+	  this.name = name;
+	  this._owner = null;
+  }
 
-	get owner() {
-		return this._owner;
-	}
+  get owner() {
+	  return this._owner;
+  }
 
-	set owner(owner) {
-		this._owner = owner;
-	}
+  set owner(owner) {
+	  this._owner = owner;
+  }
 
-	static definition() {
-		return "A pet or companion animal is an animal kept primarily for a person's company.";
-	}
+  static definition() {
+	  return "A pet or companion animal is an animal kept primarily for a person's company.";
+  }
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-	constructor(name, breed) {
-		super(name);
-		this.breed = breed;
-	}
+  constructor(name, breed) {
+	  super(name);
+	  this.breed = breed;
+  }
 
-	static dogDefinition() {
-		return super.definition + ' Dogs are one of the most common types of pets.';
-	}
+  static dogDefinition() {
+	  return super.definition + ' Dogs are one of the most common types of pets.';
+  }
 }
 
 let creature = new Pet('The Thing');
