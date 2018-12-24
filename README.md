@@ -69,9 +69,8 @@ could, for instance, use `super._owner` or `super.speak` in our `Dog` class.
 **However**, since instance methods and properties are _already_ inherited, this
 _will be the same as using_ `this._owner` _and_ `this.speak`.
 
-Using `super` as an object really only becomes useful in situations where a
-parent class contains a static method that we want to expand on in a child
-class:
+Using `super` as an object is useful in situations where a parent class contains
+a static method that we want to expand on in a child class:
 
 ```js
 class Pet {
