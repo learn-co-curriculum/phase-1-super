@@ -19,16 +19,16 @@ keyword to inherit methods from the parent class:
 ```js
 class Pet {
   constructor(name) {
-	  this.name = name;
-	  this._owner = null;
+    this.name = name;
+    this._owner = null;
   }
 
   get owner() {
-	  return this._owner;
+    return this._owner;
   }
 
   set owner(owner) {
-	  this._owner = owner;
+    this._owner = owner;
   }
 
   get speak() {
@@ -39,8 +39,8 @@ class Pet {
 // Inherits from Pet
 class Dog extends Pet {
   constructor(name, breed) {
-	  super(name);
-	  this.breed = breed;
+    super(name);
+    this.breed = breed;
   }
 }
 
@@ -75,32 +75,32 @@ a static method that we want to expand on in a child class:
 ```js
 class Pet {
   constructor(name) {
-	  this.name = name;
-	  this._owner = null;
+    this.name = name;
+    this._owner = null;
   }
 
   get owner() {
-	  return this._owner;
+    return this._owner;
   }
 
   set owner(owner) {
-	  this._owner = owner;
+    this._owner = owner;
   }
 
   static definition() {
-	  return "A pet or companion animal is an animal kept primarily for a person's company.";
+    return "A pet or companion animal is an animal kept primarily for a person's company.";
   }
 }
 
 // Inherits from Pet
 class Dog extends Pet {
   constructor(name, breed) {
-	  super(name);
-	  this.breed = breed;
+    super(name);
+    this.breed = breed;
   }
 
   static dogDefinition() {
-	  return super.definition + ' Dogs are one of the most common types of pets.';
+    return super.definition + ' Dogs are one of the most common types of pets.';
   }
 }
 
