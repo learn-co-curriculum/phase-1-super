@@ -2,56 +2,65 @@
 
 ## Learning Goals
 
-- Use the `super` method
+- Recognize how to use the `super` method
+- Recognize how to use the `super` object
 
 ## Introduction
 
 In addition to simply extending classes, JavaScript provides an additional
-keyword, `super`, for directly working with a parent class consctructor and inherited
-methods.
+keyword, `super`, for directly working with a parent class constructor and
+inherited methods.
 
-## Use the `super` Method
+## Recognize How to Use the `super` Method
 
 In the code below, we have 2 JavaScript classes: `Pet` and `Dog`. The `Dog`
-class is a _subclass_ or _child_ class of `Pet` and it uses the `extends`
-keyword to inherit methods from the parent class:
+class is a _child_ class of `Pet` and it uses the `extends` keyword to inherit
+methods from the parent class:
 
 ```js
 class Pet {
-  constructor(name) {
-    this.name = name;
-    this._owner = null;
-  }
+	constructor(name) {
+		this._name = name;
+		this._owner = null;
+	}
 
-  get owner() {
-    return this._owner;
-  }
+	get name() {
+		return this._name;
+	}
 
-  set owner(owner) {
-    this._owner = owner;
-  }
+	get owner() {
+		return this._owner;
+	}
 
-  get speak() {
-    return `${this.name} makes a noise`;
-  }
+	set owner(owner) {
+		this._owner = owner;
+	}
+
+	get speak() {
+		return `${this.name} speaks.`;
+	}
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-  constructor(name, breed) {
-    super(name);
-    this.breed = breed;
-  }
+	constructor(name, breed) {
+		super(name); /* new */
+		this.breed = breed;
+	}
 }
 
 let creature = new Pet('The Thing');
-let dog = new Dog('Spot', 'foxhound');
+let dog = new Dog('Spot', 'Foxhound');
+
+dog;
+// => Dog { name: 'Spot', _owner: null, breed: 'Foxhound' }
 ```
 
 Above, there is something new. The `Pet` class takes in a name parameter,
 assigns it to the `name` property, and also creates an `_owner` property,
-setting it to `null`. The `Dog` class takes in name and _breed_, calls `super`,
-passing in the name, then sets `this.breed` to the provided breed.
+setting it to `null`. The `Dog` class takes in **name and breed** properties,
+calls `super`, passing in the name, then sets `this.breed` to the provided
+breed.
 
 What is happening? In our `Dog` constructor, we are able to use `super` to call
 the `Pet` constructor. Doing this will set up the `name` and `owner`
@@ -59,57 +68,101 @@ properties. Then, once complete, the `Dog` constructor continues to execute,
 setting `breed`.
 
 In a child class constructor, `super` is used as a `method` and calls the parent
-class constructor before continuing with the child class constructor. This lets
-us extend a parent's constructor if we need to define custom behavior in a child
-constructor without having to override or ignore the parent.
+class constructor before continuing with the child. This lets us extend a
+parent's constructor inside a child. If we need to define custom behavior in a
+child constructor, we can do so without having to override or ignore the parent.
+
+## Recognize How to Use the `super` Object
 
 Outside of the constructor, the `super` keyword is also used, but this time, as
-an `object`. When used, it refers to parent class properties or methods. We
-could, for instance, use `super._owner` or `super.speak` in our `Dog` class.
+an `object`. When used, it refers to parent class' properties or methods.
+
+We could, for instance, use `super.owner` in our `Dog` class:
+
+```js
+// Inherits from Pet
+class Dog extends Pet {
+	constructor(name, breed) {
+		super(name); /* new */
+		this._breed = breed;
+	}
+
+	get breed() {
+		return this._breed;
+	}
+
+	get info() {
+		if (super.owner) {
+			return `${this.name} is a ${this.breed} owned by ${super.owner}`;
+		}
+		return `${this.name} is a ${this.breed}`;
+	}
+}
+
+let charlie = new Dog('Charlie B. Barkin', 'Mutt');
+
+dog.info;
+// => 'Charlie B. Barkin is a Mutt'
+
+let lady = new Dog('Lady', 'Cocker Spaniel');
+lady.owner = 'Darling Dear';
+
+lady.info;
+// => 'Lady is a Cocker Spaniel owned by Darling Dear'
+```
+
+In the above code, we've added an `info` getter that uses `super.owner` in
+a conditional statement. This accesses the `owner` getter from the parent.
+
 **However**, since instance methods and properties are _already_ inherited, this
-_will be the same as using_ `this._owner` _and_ `this.speak`.
+_will be the same as using_ `this.owner`.
 
 Using `super` as an object is useful in situations where a parent class contains
 a static method that we want to expand on in a child class:
 
 ```js
 class Pet {
-  constructor(name) {
-    this.name = name;
-    this._owner = null;
-  }
+	constructor(name) {
+		this.name = name;
+		this._owner = null;
+	}
 
-  get owner() {
-    return this._owner;
-  }
+	get owner() {
+		return this._owner;
+	}
 
-  set owner(owner) {
-    this._owner = owner;
-  }
+	set owner(owner) {
+		this._owner = owner;
+	}
 
-  static definition() {
-    return "A pet or companion animal is an animal kept primarily for a person's company.";
-  }
+	static definition() {
+		return `A pet is an animal kept primarily for a person's company.`;
+	}
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-  constructor(name, breed) {
-    super(name);
-    this.breed = breed;
-  }
+	constructor(name, breed) {
+		super(name);
+		this.breed = breed;
+	}
 
-  static dogDefinition() {
-    return super.definition + ' Dogs are one of the most common types of pets.';
-  }
+	static definition() {
+		return (
+			super.definition() + ' Dogs are one of the most common types of pets.'
+		);
+	}
 }
 
 let creature = new Pet('The Thing');
 let dog = new Dog('Spot', 'foxhound');
+
+Pet.definition();
+Dog.definition();
 ```
 
-In the `Pet` class above, we've included a static method, `definition`, for
-what a pet it. In `Dog`, we are able to use `super.definition` to access that
+In the `Pet` class above, we've included a static method, `definition()`, for
+what a pet is. In `Dog`, we are able to use `super.definition()` to access that
 static method, then _add_ to it, in this case, extending the definition to
 specifically reference dogs.
 
