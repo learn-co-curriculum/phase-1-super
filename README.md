@@ -19,34 +19,34 @@ methods from the parent class:
 
 ```js
 class Pet {
-	constructor(name) {
-		this._name = name;
-		this._owner = null;
-	}
+  constructor(name) {
+    this._name = name;
+    this._owner = null;
+  }
 
-	get name() {
-		return this._name;
-	}
+  get name() {
+    return this._name;
+  }
 
-	get owner() {
-		return this._owner;
-	}
+  get owner() {
+    return this._owner;
+  }
 
-	set owner(owner) {
-		this._owner = owner;
-	}
+  set owner(owner) {
+    this._owner = owner;
+  }
 
-	get speak() {
-		return `${this.name} speaks.`;
-	}
+  get speak() {
+    return `${this.name} speaks.`;
+  }
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-	constructor(name, breed) {
-		super(name); /* new */
-		this.breed = breed;
-	}
+  constructor(name, breed) {
+    super(name); /* new */
+    this.breed = breed;
+  }
 }
 
 let creature = new Pet('The Thing');
@@ -82,21 +82,21 @@ We could, for instance, use `super.owner` in our `Dog` class:
 ```js
 // Inherits from Pet
 class Dog extends Pet {
-	constructor(name, breed) {
-		super(name); /* new */
-		this._breed = breed;
-	}
+  constructor(name, breed) {
+    super(name); /* new */
+    this._breed = breed;
+  }
 
-	get breed() {
-		return this._breed;
-	}
+  get breed() {
+    return this._breed;
+  }
 
-	get info() {
-		if (super.owner) {
-			return `${this.name} is a ${this.breed} owned by ${super.owner}`;
-		}
-		return `${this.name} is a ${this.breed}`;
-	}
+  get info() {
+    if (super.owner) {
+      return `${this.name} is a ${this.breed} owned by ${super.owner}`;
+    }
+    return `${this.name} is a ${this.breed}`;
+  }
 }
 
 let charlie = new Dog('Charlie B. Barkin', 'Mutt');
@@ -122,36 +122,36 @@ a static method that we want to expand on in a child class:
 
 ```js
 class Pet {
-	constructor(name) {
-		this.name = name;
-		this._owner = null;
-	}
+  constructor(name) {
+    this.name = name;
+    this._owner = null;
+  }
 
-	get owner() {
-		return this._owner;
-	}
+  get owner() {
+    return this._owner;
+  }
 
-	set owner(owner) {
-		this._owner = owner;
-	}
+  set owner(owner) {
+    this._owner = owner;
+  }
 
-	static definition() {
-		return `A pet is an animal kept primarily for a person's company.`;
-	}
+  static definition() {
+    return `A pet is an animal kept primarily for a person's company.`;
+  }
 }
 
 // Inherits from Pet
 class Dog extends Pet {
-	constructor(name, breed) {
-		super(name);
-		this.breed = breed;
-	}
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
 
-	static definition() {
-		return (
-			super.definition() + ' Dogs are one of the most common types of pets.'
-		);
-	}
+  static definition() {
+    return (
+      super.definition() + ' Dogs are one of the most common types of pets.'
+    );
+  }
 }
 
 let creature = new Pet('The Thing');
@@ -180,4 +180,3 @@ methods from the parent class.
 - [Inheritance in JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance)
 - [“Super” and “Extends” In JavaScript ES6 - Understanding The Tough Parts](https://medium.com/beginners-guide-to-mobile-web-development/super-and-extends-in-javascript-es6-understanding-the-tough-parts-6120372d3420)
 - [Class inheritance, super](https://javascript.info/class-inheritance)
-
