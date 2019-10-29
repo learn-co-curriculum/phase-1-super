@@ -53,7 +53,7 @@ let creature = new Pet('The Thing');
 let dog = new Dog('Spot', 'Foxhound');
 
 dog;
-// => Dog { name: 'Spot', _owner: null, breed: 'Foxhound' }
+// => Dog { _name: 'Spot', _owner: null, breed: 'Foxhound' }
 ```
 
 Above, there is something new. The `Pet` class takes in a name parameter,
