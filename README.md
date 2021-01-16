@@ -101,7 +101,7 @@ class Dog extends Pet {
 
 let charlie = new Dog('Charlie B. Barkin', 'Mutt');
 
-dog.info;
+charlie.info;
 // => 'Charlie B. Barkin is a Mutt'
 
 let lady = new Dog('Lady', 'Cocker Spaniel');
