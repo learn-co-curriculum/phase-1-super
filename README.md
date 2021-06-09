@@ -1,4 +1,4 @@
-# Class Extensions and Inheritance: `super`
+# Super
 
 ## Learning Goals
 
