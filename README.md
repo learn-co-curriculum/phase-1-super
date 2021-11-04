@@ -13,30 +13,18 @@ inherited methods.
 
 ## Recognize How to Use the `super` Method
 
-In the code below, we have 2 JavaScript classes: `Pet` and `Dog`. The `Dog`
+In the code below, we have two JavaScript classes: `Pet` and `Dog`. The `Dog`
 class is a _child_ class of `Pet` and it uses the `extends` keyword to inherit
 methods from the parent class:
 
 ```js
 class Pet {
   constructor(name) {
-    this._name = name;
-    this._owner = null;
+    this.name = name;
+    this.owner = null;
   }
 
-  get name() {
-    return this._name;
-  }
-
-  get owner() {
-    return this._owner;
-  }
-
-  set owner(owner) {
-    this._owner = owner;
-  }
-
-  get speak() {
+  speak() {
     return `${this.name} speaks.`;
   }
 }
@@ -49,16 +37,16 @@ class Dog extends Pet {
   }
 }
 
-let creature = new Pet('The Thing');
-let dog = new Dog('Spot', 'Foxhound');
+const creature = new Pet("The Thing");
+const dog = new Dog("Spot", "Foxhound");
 
 dog;
-// => Dog { _name: 'Spot', _owner: null, breed: 'Foxhound' }
+// => Dog { name: 'Spot', owner: null, breed: 'Foxhound' }
 ```
 
-Above, there is something new. The `Pet` class takes in a name parameter,
-assigns it to the `name` property, and also creates an `_owner` property,
-setting it to `null`. The `Dog` class takes in **name and breed** properties,
+Above, there is something new. The `Pet` class takes in a `name` parameter,
+assigns it to the `name` property, and _also_ creates an `owner` property,
+setting it to `null`. The `Dog` class takes in `name` and `breed` properties,
 calls `super`, passing in the name, then sets `this.breed` to the provided
 breed.
 
@@ -67,8 +55,8 @@ the `Pet` constructor. Doing this will set up the `name` and `owner`
 properties. Then, once complete, the `Dog` constructor continues to execute,
 setting `breed`.
 
-In a child class constructor, `super` is used as a `method` and calls the parent
-class constructor before continuing with the child. This lets us extend a
+In a child class constructor, `super` is used as a **method** and calls the
+parent class constructor before continuing with the child. This lets us extend a
 parent's constructor inside a child. If we need to define custom behavior in a
 child constructor, we can do so without having to override or ignore the parent.
 
@@ -77,45 +65,38 @@ child constructor, we can do so without having to override or ignore the parent.
 Outside of the constructor, the `super` keyword is also used, but this time, as
 an `object`. When used, it refers to parent class' properties or methods.
 
-We could, for instance, use `super.owner` in our `Dog` class:
+We could, for instance, use `super.speak()` from the `info` method in our `Dog`
+class to call the `speak` method in the parent `Pet` class:
 
 ```js
 // Inherits from Pet
 class Dog extends Pet {
   constructor(name, breed) {
     super(name); /* new */
-    this._breed = breed;
-  }
-
-  get breed() {
-    return this._breed;
+    this.breed = breed;
   }
 
   get info() {
-    if (super.owner) {
-      return `${this.name} is a ${this.breed} owned by ${super.owner}`;
-    }
-    return `${this.name} is a ${this.breed}`;
+    return `${this.name} is a ${this.breed}. ${super.speak()}`;
   }
 }
 
-let charlie = new Dog('Charlie B. Barkin', 'Mutt');
+const charlie = new Dog("Charlie B. Barkin", "Mutt");
 
 charlie.info;
-// => 'Charlie B. Barkin is a Mutt'
+// => 'Charlie B. Barkin is a Mutt. Charlie B. Barkin speaks.'
 
-let lady = new Dog('Lady', 'Cocker Spaniel');
-lady.owner = 'Darling Dear';
+const lady = new Dog("Lady", "Cocker Spaniel");
 
 lady.info;
-// => 'Lady is a Cocker Spaniel owned by Darling Dear'
+// => 'Lady is a Cocker Spaniel. Lady speaks.'
 ```
 
-In the above code, we've added an `info` getter that uses `super.owner` in
-a conditional statement. This accesses the `owner` getter from the parent.
+In the above code, we've added an `info` getter that uses `super.speak()` to
+call the `speak` method in the parent class.
 
 **However**, since instance methods and properties are _already_ inherited, this
-_will be the same as using_ `this.owner`.
+_will be the same as using_ `this.speak()`.
 
 Using `super` as an object is useful in situations where a parent class contains
 a static method that we want to expand on in a child class:
@@ -124,15 +105,7 @@ a static method that we want to expand on in a child class:
 class Pet {
   constructor(name) {
     this.name = name;
-    this._owner = null;
-  }
-
-  get owner() {
-    return this._owner;
-  }
-
-  set owner(owner) {
-    this._owner = owner;
+    this.owner = null;
   }
 
   static definition() {
@@ -149,16 +122,18 @@ class Dog extends Pet {
 
   static definition() {
     return (
-      super.definition() + ' Dogs are one of the most common types of pets.'
+      super.definition() + " Dogs are one of the most common types of pets."
     );
   }
 }
 
-let creature = new Pet('The Thing');
-let dog = new Dog('Spot', 'foxhound');
+const creature = new Pet("The Thing");
+const dog = new Dog("Spot", "foxhound");
 
 Pet.definition();
+// => "A pet is an animal kept primarily for a person's company."
 Dog.definition();
+// => "A pet is an animal kept primarily for a person's company. Dogs are one of the most common types of pets."
 ```
 
 In the `Pet` class above, we've included a static method, `definition()`, for
@@ -178,5 +153,5 @@ methods from the parent class.
 ## Resources
 
 - [Inheritance in JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance)
-- [“Super” and “Extends” In JavaScript ES6 - Understanding The Tough Parts](https://medium.com/beginners-guide-to-mobile-web-development/super-and-extends-in-javascript-es6-understanding-the-tough-parts-6120372d3420)
+- ["Super" and "Extends" In JavaScript ES6 - Understanding The Tough Parts](https://medium.com/beginners-guide-to-mobile-web-development/super-and-extends-in-javascript-es6-understanding-the-tough-parts-6120372d3420)
 - [Class inheritance, super](https://javascript.info/class-inheritance)
